@@ -10,11 +10,12 @@
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+<body>
+<div class="container" style="margin-top: 50px">
+   <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+          <div class="panel-heading">Login</div>
+          <div class="panel-body">
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -40,15 +41,10 @@
                         </div>
 
 
-                        <div class="form-group row">
+                       <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
-                                          <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
-                      <label for="password" class="col-md-4 control-label">Captcha</label>
-                  </div>
-
-
-                            <div class="col-md-6">
+                        <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
@@ -60,6 +56,9 @@
                         </div>
 
 
+
+                        <div class="form-group row">
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Captcha') }}</label>
 
                         <div class="col-md-6">
                           <div class="captcha">
@@ -107,4 +106,16 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+$(".btn-refresh").click(function(){
+  $.ajax({
+     type:'GET',
+     url:'/refresh_captcha',
+     success:function(data){
+        $(".captcha span").html(data.captcha);
+     }
+  });
+});
+</script>
 @endsection
