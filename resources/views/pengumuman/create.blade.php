@@ -7,7 +7,7 @@
                <div class="card-header">"Tambah Pengumuman"</div>
                <div class="card-body">
                	<form method="post" action="{!! route('pengumuman.store') !!}">
-               		@include('pengumuman.form')
+               	@include('pengumuman.form')
                 </form>
                </div>
              </div>
@@ -19,10 +19,9 @@
 
 @section('scripts')
  <script src="https://cdn.ckeditor.com/4.13.0/full/ckeditor.js"></script>
- <script >
+ <script>
    $(document).ready(function(){
-    CKEDITOR.replace( 'isi' );
+    CKEDITOR.replace('isi');
    });
- 
   </script>
-  @endsection
+@endsection

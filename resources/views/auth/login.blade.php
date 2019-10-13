@@ -1,50 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
-<head>
-    <title>How to create captcha code in Laravel 5?</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
-
- 
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-</head>
-
-<body>
-<div class="container" style="margin-top: 50px">
-   <div class="col-md-8 col-md-offset-2">
-      <div class="panel panel-default">
-          <div class="panel-heading">Login</div>
-          <div class="panel-body">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-                        <div class="panel-body">
-
-                <form class="form-horizontal" method="POST" action="{{ route('myCaptcha.post') }}">
-
-                    {{ csrf_field() }}
 
                         <div class="form-group row">
-                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Contact') }}</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" autofocus>
+                                <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" autofocus>
 
-                                @error('phone')
+                                @error('Contact')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                         </div>
-
-
-                       <div class="form-group row">
+                         
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
-                        <div class="col-md-6">
+                            <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
@@ -53,28 +37,28 @@
                                     </span>
                                 @enderror
                             </div>
+
                         </div>
-
-
-
                         <div class="form-group row">
                             <label for="captcha" class="col-md-4 col-form-label text-md-right">{{ __('Captcha') }}</label>
 
-                        <div class="col-md-6">
-                          <div class="captcha">
-                          <span>{!! captcha_img() !!}</span>
-                          <button type="button" class="btn btn-success btn-refresh"><i class="fa fa-refresh"></i></button>
-                          </div>
-                          <input id="captcha" type="text" class="form-control" placeholder="Enter Captcha" name="captcha">
+                            <div class="col-md-6">
+                                <div class="captcha">
+                                    <img src="{{captcha_src('flat')}}" onclick="this.src='/captcha/flat?'+Math.random()" id="captchaCode" alt="" class="captcha">
+                                    <a rel="nofollow" href="javascript:;" onclick="document.getElementById('captchaCode').src='captcha/flat?'+Math.random()" class="refresh">
+                                        <button type="button" class="btn btn-success btn-refresh">Refresh</button>
+                                    </a>
+                                </div>
+                                <input id="captcha" type="captcha" class="form-control mt-2 @error('captcha') is-invalid @enderror" name="captcha" placeholder="Enter Captcha">
 
+                                @error('captcha')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
 
-                          @if ($errors->has('captcha'))
-                              <span class="help-block">
-                                  <strong>{{ $errors->first('captcha') }}</strong>
-                              </span>
-                          @endif
-                      </div>
-                  
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
@@ -106,16 +90,4 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-$(".btn-refresh").click(function(){
-  $.ajax({
-     type:'GET',
-     url:'/refresh_captcha',
-     success:function(data){
-        $(".captcha span").html(data.captcha);
-     }
-  });
-});
-</script>
 @endsection

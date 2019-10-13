@@ -1,37 +1,50 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title> List Galeri</title>
-</head>
-<body>
-<a href="{!! route('galeri.create') !!}" class="btn btn-primary">Tambah Data</a>
-<table border="2">
-    <tr>
-        <td>ID</td>
-        <td>Nama</td>
-        <td>Keterangan</td>
-        <td>Path</td>
-        <td>User ID</td>
-        <td>Aksi</td>
-    </tr>
+@extends('layouts.app')
 
-    @foreach($galeri as $item)
+@section('content')
 
+<center>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+              <div class=card>
+               <div class="card-header">Galeri</div>
+               
+               <div class="card-body">
+                <a href="{!! route('galeri.create') !!}" class="btn btn-primary">Tambah Data</a>
+                <table border="2">
+                <tr bgcolor='pink' align="center">
 
-    <tr>
-    <td> {!! $item->id !!}</td>
-    <td> {!! $item->nama !!}</td>
-    <td> {!! $item->keterangan !!}</td>
-    <td> {!! $item->path !!}</td>
-    <td> {!! $item->users_id !!}</td>
-    <td>
-        <a href="{!! route('galeri.show',[$item->id]) !!}" class="btn btn-success">
-            Lihat
-        </a>
-</tr>
-@endforeach
+        <table border= "2">
+        <tr bgcolor='pink' align="center"> 
+        <td> ID </td>
+        <td> NAMA </td>
+        <td> PATH </td>
+        <td> KETERANGAN </td>
+        <td> CREATE </td>
+        <td> UPDATE </td>
+        <td> AKSI </td>
+        </tr>
 
-</table>
+        @foreach($galeri as $item)
 
-</body>
-</html>
+        <tr>
+
+        <td> {!! $item ->id !!}</td>
+        <td> {!! $item ->nama !!}</td>
+        <td> {!! $item ->path !!}</td>
+        <td> {!! $item ->keterangan !!}</td>
+        <td> {!! $item ->created_at->format('d/m/Y H:i:s') !!}</td>
+        <td> {!! $item ->updated_at->format('d/m/Y H:i:s') !!}</td>
+        <td>
+        <a href="{!! route('galeri.show',[$item->id]) !!}" 
+        class="btn btn-sm btn-success">View</a>
+        <a href="{!! route('galeri.edit',[$item->id]) !!}" 
+        class="btn btn-sm btn-warning">Edit</a>
+        {!! Form::open(['route' => ['galeri.destroy', $item->id], 'method'=>'delete']) !!}
+        {!! Form::submit('Delete',['class'=>'btn btn-sm btn-danger','onclick'=>"return confirm('Apakah anda yakin menghapus data ini?')"]); !!}
+        {!! Form::close() !!}
+          </td>
+        </tr>
+      </center>
+    @endforeach
+@endsection

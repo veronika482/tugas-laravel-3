@@ -35,4 +35,36 @@ class kategori_berita_controller extends Controller
 	return redirect(route('kategori_berita.index'));	
 	
 	} 
+
+	public function edit($id){
+        $kategori_berita=kategori_berita::find($id);
+
+        if(empty($kategori_berita)){
+            return redirect(route('kategori_artikel.index'));
+        }
+        return view('kategori_berita.edit', compact('kategori_berita'));
+    }
+
+    public function update($id, Request $request){
+        $kategori_berita=kategori_berita::find($id);
+        $input=$request->all();
+
+        if(empty($kategori_berita)){
+            return redirect(route('kategori_berita.index'));
+        }
+        
+        $kategori_berita->update($input);
+        return redirect(route('kategori_berita.index'));
+    }
+
+    public function destroy($id){
+        $kategori_berita=kategori_berita::find($id);
+
+        if(empty($kategori_berita)){
+            return redirect(route('kategori_berita.index'));
+        }
+        
+        $kategori_berita->delete();
+        return redirect(route('kategori_berita.index'));
+    }
 }

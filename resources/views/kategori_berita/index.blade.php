@@ -1,33 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>kategori berita</title>
-</head>
-<body>
-	<a href="{!! route('kategori_berita.create') !!}" class="btn btn-primary">Tambah Data</a>
-<table border="2">
-	<tr>
-		<td>ID</td>
-		<td>Nama</td>
-		<td>User ID</td>
-		<td>Aksi</td>
+@extends('layouts.app')
 
-	</tr>
+@section('content')
 
-	@foreach($kategori_berita as $item)
+<center>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+              <div class=card>
+               <div class="card-header">List Kategori Berita</div>
+               
+               <div class="card-body">
+                <a href="{!! route('kategori_berita.create') !!}" class="btn btn-success">Tambah Data</a>
+                <table border="2">
+                <tr bgcolor='pink' align="center">
 
-	<tr>
-	<td> {!! $item->id !!}</td>
-	<td> {!! $item->nama !!}</td>
-	<td> {!! $item->users_id !!}</td>
-	<td>
-		<a href="{!! route('kategori_berita.show',[$item->id]) !!}" class="btn btn-success">
-			Lihat
-		</a>
-</tr>
-@endforeach
+        <table border= "2">
+        <tr bgcolor='pink' align="center"> 
+        <td> ID </td>
+        <td> NAMA </td>
+        <td> USERS_ID</td>
+        <td> CREATE </td>
+        <td> UPDATE </td>
+        <td> AKSI </td>
+        </tr>
 
-</table>
+        @foreach($kategori_berita as $item)
 
-</body>
-</html>
+        <tr>
+        <td> {!! $item ->id !!}</td>
+        <td> {!! $item ->nama !!}</td>
+        <td> {!! $item ->users_id !!}</td>
+        <td> {!! $item ->created_at->format('d/m/Y H:i:s') !!}</td>
+        <td> {!! $item ->updated_at->format('d/m/Y H:i:s') !!}</td>
+        <td>
+        <a href="{!! route('kategori_berita.show',[$item->id]) !!}" 
+        class="btn btn-sm btn-success">View</a>
+        <a href="{!! route('kategori_berita.edit',[$item->id]) !!}" 
+        class="btn btn-sm btn-warning">Edit</a>
+        {!! Form::open(['route' => ['kategori_berita.destroy', $item->id], 'method'=>'delete']) !!}
+        {!! Form::submit('Delete',['class'=>'btn btn-sm btn-danger','onclick'=>"return confirm('Apakah anda yakin menghapus data ini?')"]); !!}
+        {!! Form::close() !!}
+          </td>
+        </tr>
+      </center>
+    @endforeach
+@endsection
