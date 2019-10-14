@@ -9,33 +9,31 @@ use App\kategori_artikel;
 class artikel_controller extends Controller
 {
     public function index(){
-    	$artikel=artikel::all();
+        $artikel=artikel::all();
 
-    	return view('artikel.index', compact('artikel'));
+        return view('artikel.index', compact('artikel'));
+    }
 
-	}
+    public function show($id){
+        $artikel=artikel::find($id);
 
-	public function show($id){
-		$artikel=artikel::find($id);
+        return view('artikel.show', compact('artikel'));
+    }
 
-		return view('artikel.show', compact('artikel'));
-	}
-	public function create(){
-		$artikel=artikel::pluck('judul','isi','id');
+    public function create(){
+        $kategori_artikel=kategori_artikel::pluck('nama', 'id');
 
-		return view('artikel.create', compact('artikel'));
-	}
-	
-	public function store(Request $request){
-	$input=$request->all();
+        return view('artikel.create', compact('kategori_artikel'));
+    }
 
-	artikel::create($input);
-	
-	return redirect(route('artikel.index'));	
-	
-	}
+    public function store(Request $request){
+        $input=$request->all();
+        artikel::create($input);
 
-	 public function edit($id){
+        return redirect(route('artikel.index'));
+    }
+
+    public function edit($id){
         $artikel=artikel::find($id);
         $kategori_artikel=kategori_artikel::pluck('nama', 'id');
 

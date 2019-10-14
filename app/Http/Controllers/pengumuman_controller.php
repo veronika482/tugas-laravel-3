@@ -9,33 +9,31 @@ use App\kategori_pengumuman;
 class pengumuman_controller extends Controller
 {
     public function index(){
-    	$pengumuman=pengumuman::all();
+        $pengumuman=pengumuman::all();
 
-    	return view('pengumuman.index', compact('pengumuman'));
+        return view('pengumuman.index', compact('pengumuman'));
+    }
 
-	}
+    public function show($id){
+        $pengumuman=pengumuman::find($id);
 
-	public function show($id){
-		$pengumuman=pengumuman::find($id);
+        return view('pengumuman.show', compact('pengumuman'));
+    }
 
-		return view('pengumuman.show', compact('pengumuman'));
-	}
-	public function create(){
-		$pengumuman=pengumuman::pluck('judul','isi','id');
+    public function create(){
+        $kategori_pengumuman=kategori_pengumuman::pluck('nama', 'id');
 
-		return view('pengumuman.create', compact('pengumuman'));
-	}
-	
-	public function store(Request $request){
-	$input=$request->all();
+        return view('pengumuman.create', compact('kategori_pengumuman'));
+    }
 
-	pengumuman::create($input);
-	
-	return redirect(route('pengumuman.index'));	
-	
-	}
+    public function store(Request $request){
+        $input=$request->all();
+        pengumuman::create($input);
 
-	public function edit($id){
+        return redirect(route('pengumuman.index'));
+    }
+
+    public function edit($id){
         $pengumuman=pengumuman::find($id);
         $kategori_pengumuman=kategori_pengumuman::pluck('nama', 'id');
 

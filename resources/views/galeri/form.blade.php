@@ -46,7 +46,7 @@
     <label for="kategori_galeri_id" class="col-md-2 col Form-label text-md-right">{{__('Kategori Galeri')}}</label>
 
     <div class="col-md-10">
-        {!! Form::select('kategori_galeri_id', $galeri, null, ["class"=> "Form-control", "required"]) !!}
+        {!! Form::select('kategori_galeri_id', $kategori_galeri, null, ["class"=> "Form-control", "required"]) !!}
 
         @error('path')
         <span class="invalid-feedback" role="alert">

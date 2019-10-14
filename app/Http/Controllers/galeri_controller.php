@@ -8,30 +8,62 @@ use App\kategori_galeri;
 
 class galeri_controller extends Controller
 {
-    public function index(){
+	public function index(){
     	$galeri=galeri::all();
 
     	return view('galeri.index', compact('galeri'));
+    }
 
-	}
+   public function show($id){
+    	$galeri=galeri::find($id);
 
-	public function show($id){
-		$galeri=galeri::find($id);
+    	return view('galeri.show', compact('galeri'));
+    }
 
-		return view('galeri.show', compact('galeri'));
-	}
-	public function create(){
-		$galeri=galeri::pluck('nama','keterangan','path','id');
+    public function create(){
+    	$kategori_galeri=kategori_galeri::pluck('nama', 'id');
 
-		return view('galeri.create', compact('galeri'));
-	}
-	
-	public function store(Request $request){
-	$input=$request->all();
+    	return view('galeri.create', compact('kategori_galeri'));
+    }
 
-	galeri::create($input);
-	
-	return redirect(route('galeri.index'));	
-	
-	}
+    public function store(Request $request){
+    	$input=$request->all();
+    	galeri::create($input);
+
+    	return redirect(route('galeri.index'));
+    }
+
+    public function edit($id){
+        $galeri=galeri::find($id);
+        $kategori_galeri=kategori_galeri::pluck('nama', 'id');
+
+        if(empty($galeri)){
+            return redirect(route('galeri.index'));
+        }
+        return view('galeri.edit', compact('galeri', 'kategori_galeri'));
+    }
+
+    public function update($id, Request $request){
+        $galeri=galeri::find($id);
+        $input=$request->all();
+
+        if(empty($galeri)){
+            return redirect(route('galeri.index'));
+        }
+        
+        $galeri->update($input);
+        return redirect(route('galeri.index'));
+    }
+
+    public function destroy($id){
+        $galeri=galeri::find($id);
+
+        if(empty($galeri)){
+            return redirect(route('galeri.index'));
+        }
+        
+        $galeri->delete();
+        return redirect(route('galeri.index'));
+    }
+
 }
